@@ -24,6 +24,14 @@
 
 ### 配置项(config/cmdprotect-common.toml)
 
+注意:编辑配置文件时请保存为 **UTF-8(无 BOM)** 编码,否则带 BOM 的文件会导致 Forge 读取配置失败(VSCode 右下角可选编码,记事本默认即为无 BOM 的 UTF-8)。
+
+    [general]
+        # Whether OPs bypass the protection.
+        # true = players in the server OP list are unrestricted (original cmdProtect.sk behavior)
+        # false = the /kill and /tp protections also apply to OPs
+        bypass_op = true
+
     [kill_protect]
         # Block non-OP players from using /kill on other targets
         enabled = true
@@ -38,13 +46,21 @@
         # Kick message when a player violates /tp protection
         kick_message = "§c禁止！不能传送其他玩家"
 
+## 分支说明
+
+- **main**:与原 cmdProtect.sk 行为一致 —— OP 一律放行(硬编码,不可配置)。
+- **feature/no-op-bypass**(本分支):新增全局配置 **general.bypass_op**:
+  - bypass_op = true(默认):OP 放行,行为与 main 一致;
+  - bypass_op = false:OP 同样受保护 —— OP 对他人执行 /kill、/tp(/teleport) 会被拦截并踢出,同时堵住 OP 用 /execute as 他人 run ... 间接绕过的方式(间接执行时处罚原始命令发起人);
+  - 无论怎么设置,控制台(非玩家来源)永远不受限制,管理员仍可从控制台执行任何指令。
+
 ## 构建
 
 要求:**JDK 17** 及以上版本。
 
     gradlew build          (Windows 下运行 gradlew.bat)
 
-产物在 build/libs/cmdprotect-1.0.0.jar,直接丢进服务端(或客户端)mods 文件夹即可。
+产物在 build/libs/cmdprotect-1.1.0.jar,直接丢进服务端(或客户端)mods 文件夹即可。
 本机没有 JDK/Gradle 时,首次构建会自动下载(需要网络)。
 
 ## 已知限制
@@ -52,7 +68,8 @@
 - 拦截基于命令文本的**第二参数**,与原 Skript 一致。因此:
   - 名字恰好是纯数字的玩家会被当作坐标放行(极罕见);
   - /tp @p <坐标> 会被拦截(第二参数 @p 非自己),与原脚本一致;
-- 需 OP 权限的 /execute 本身只有 OP 可用,而 OP 不受限制,因此不存在 execute 绕过问题。
+- 普通玩家用不了 /execute(需权限等级 2);bypass_op = true 时 OP 不受限制,不存在绕过问题;
+  bypass_op = false 时,OP 通过 /execute as 的间接执行同样会被拦截(处罚原始命令发起人)。
 
 ## 项目结构
 

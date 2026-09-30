@@ -13,6 +13,9 @@ public final class CmdProtectConfig {
 
     public static final ForgeConfigSpec SPEC;
 
+    // 全局
+    public static final ForgeConfigSpec.BooleanValue OP_BYPASS;
+
     // /kill 保护
     public static final ForgeConfigSpec.BooleanValue ENABLE_KILL_PROTECT;
     public static final ForgeConfigSpec.ConfigValue<String> KILL_KICK_MESSAGE;
@@ -24,6 +27,14 @@ public final class CmdProtectConfig {
 
     static {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
+
+        builder.push("general");
+        OP_BYPASS = builder
+                .comment("Whether OPs bypass the protection.",
+                        "true = players in the server OP list are unrestricted (original cmdProtect.sk behavior)",
+                        "false = the /kill and /tp protections also apply to OPs")
+                .define("bypass_op", true);
+        builder.pop();
 
         builder.push("kill_protect");
         ENABLE_KILL_PROTECT = builder
