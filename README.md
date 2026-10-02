@@ -75,7 +75,7 @@
 
     src/main/java/com/cmdprotect/
     ├── CmdProtect.java              # @Mod 入口:注册配置与事件监听
-    ├── ModConfig.java               # ForgeConfigSpec 配置定义
+    ├── CmdProtectConfig.java        # ForgeConfigSpec 配置定义
     └── CommandProtectHandler.java   # CommandEvent 拦截核心逻辑
     src/main/resources/
     ├── META-INF/mods.toml           # 模组元数据
