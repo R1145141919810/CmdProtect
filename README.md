@@ -1,6 +1,6 @@
 # CmdProtect (Forge 1.20.1)
 
-把 **cmdProtect.sk**(Skript 脚本)移植并改造而成的 Forge 模组,适用于 **Minecraft 1.20.1 + Forge**。
+一种专门限制传送指令和抹杀指令的 Forge 模组,适用于 **Minecraft 1.20.1 + Forge**。
 
 ## 原脚本做了什么
 
